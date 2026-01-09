@@ -2,6 +2,7 @@ package com.example.tictactoe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.*
 import android.widget.Button
 import android.widget.TextView
 
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         updateTurnIndicator()
 
-        playAgainButton.isEnabled = false
+        playAgainButton.visibility = INVISIBLE
         playAgainButton.setOnClickListener { playAgain() }
 
         gameBoard = Array(3) { row ->
@@ -57,34 +58,31 @@ class MainActivity : AppCompatActivity() {
 
         button.text = currentPlayer
 
+        var colorId = R.color.blue
         if (currentPlayer == "X") {
-            button.setTextColor(getColor(R.color.red))
-        } else {
-            button.setTextColor(getColor(R.color.blue))
+            colorId = R.color.red
         }
+        button.setTextColor(getColor(colorId))
 
         moveCount++
 
         when {
             isWinner() -> {
+                currentPlayerTextView.text = ""
                 endGameTextView.text = getString(R.string.win_message, currentPlayer)
-
-                val winningCOlor = if (currentPlayer == "X") {
-                    getColor(R.color.red)
-                } else {
-                    getColor(R.color.blue)
-                }
-
-                setBoardFrameColor(winningCOlor)
-
+                endGameTextView.setTextColor(getColor(colorId))
+                setBoardFrameColor(getColor(colorId))
                 gameOver = true
-                enableResetButton()
+                enableResetButton(getColor(colorId))
             }
 
             moveCount == 9 -> {
+                colorId = R.color.grey
+                currentPlayerTextView.text = ""
                 endGameTextView.text = getString(R.string.draw_message)
+                endGameTextView.setTextColor(colorId)
                 gameOver = true
-                enableResetButton()
+                enableResetButton(getColor(colorId))
             }
 
             else -> switchPlayer()
@@ -121,7 +119,6 @@ class MainActivity : AppCompatActivity() {
         for (row in gameBoard) {
             for (button in row) {
                 button.text = ""
-                button.setTextColor(getColor(android.R.color.black))
             }
         }
         currentPlayer = "X"
@@ -129,12 +126,14 @@ class MainActivity : AppCompatActivity() {
         gameOver = false
         updateTurnIndicator()
         endGameTextView.text = ""
+        playAgainButton.visibility = INVISIBLE
         playAgainButton.isEnabled = false
 
-        setBoardFrameColor(getColor(android.R.color.black))
+        setBoardFrameColor(getColor(R.color.grey))
     }
 
-    private fun enableResetButton() {
-        playAgainButton.isEnabled = true
+    private fun enableResetButton(color: Int) {
+        playAgainButton.visibility = VISIBLE
+        playAgainButton.setBackgroundColor(color)
     }
 }
