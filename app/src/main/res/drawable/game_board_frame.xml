@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/game_board_frame">
+
     <solid android:color="@android:color/transparent" />
     <stroke
-        android:width="6dp"
+        android:width="@dimen/game_board_frame_stroke_width"
         android:color="@color/red" />
     <corners android:radius="12dp" />
 
