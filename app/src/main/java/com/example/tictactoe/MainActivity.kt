@@ -7,8 +7,8 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var gameBoard: Array<Array<Button>>
-    private lateinit var currentPlayerMessage: TextView
-    private lateinit var endGameMessage: TextView
+    private lateinit var currentPlayerTextView: TextView
+    private lateinit var endGameTextView: TextView
     private lateinit var playAgainButton: Button
 
     private var currentPlayer = "X"
@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        currentPlayerMessage = findViewById(R.id.current_player_message)
-        endGameMessage = findViewById(R.id.end_game_message)
+        currentPlayerTextView = findViewById(R.id.current_player_message)
+        endGameTextView = findViewById(R.id.end_game_message)
         playAgainButton = findViewById(R.id.play_again_button)
 
         updateTurnIndicator()
@@ -46,13 +46,13 @@ class MainActivity : AppCompatActivity() {
 
         when {
             isWinner() -> {
-                endGameMessage.text = getString(R.string.win_message, currentPlayer)
+                endGameTextView.text = getString(R.string.win_message, currentPlayer)
                 gameOver = true
                 enableResetButton()
             }
 
             moveCount == 9 -> {
-                endGameMessage.text = getString(R.string.draw_message)
+                endGameTextView.text = getString(R.string.draw_message)
                 gameOver = true
                 enableResetButton()
             }
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateTurnIndicator() {
-        currentPlayerMessage.text = getString(R.string.current_player_message, currentPlayer)
+        currentPlayerTextView.text = getString(R.string.current_player_message, currentPlayer)
     }
 
     private fun resetGame() {
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         moveCount = 0
         gameOver = false
         updateTurnIndicator()
-        endGameMessage.text = ""
+        endGameTextView.text = ""
         playAgainButton.isEnabled = false
     }
 
