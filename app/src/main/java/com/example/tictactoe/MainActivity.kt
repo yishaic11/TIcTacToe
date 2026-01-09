@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBoardFrameColor(color: int) {
+    private fun setBoardFrameColor(color: Int) {
         var boardFrameStrokeWidth =
             resources.getDimensionPixelSize(R.dimen.game_board_frame_stroke_width)
         var drawable = gameBoardFrame.background.mutate() as GradientDrawable
