@@ -7,6 +7,7 @@
         <item name="android:layout_margin">2dp</item>
         <item name="android:textSize">48sp</item>
         <item name="android:background">@android:color/transparent</item>
+<!--        <item name="android:backdropColor">@android:color/holo_red_dark</item>-->
         <item name="android:gravity">center</item>
     </style>
 </resources>
