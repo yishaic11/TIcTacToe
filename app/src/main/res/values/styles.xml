@@ -4,10 +4,14 @@
     <style name="GameBoardButton">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">100dp</item>
-        <item name="android:layout_margin">2dp</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:insetTop">2dp</item>
+        <item name="android:insetBottom">2dp</item>
+        <item name="android:insetRight">2dp</item>
+        <item name="android:insetLeft">2dp</item>
         <item name="android:textSize">48sp</item>
-        <item name="android:background">@android:color/transparent</item>
-<!--        <item name="android:backdropColor">@android:color/holo_red_dark</item>-->
         <item name="android:gravity">center</item>
+        <item name="android:backgroundTint">#EBEAEA</item>
+        <item name="cornerRadius">8dp</item>
     </style>
 </resources>
