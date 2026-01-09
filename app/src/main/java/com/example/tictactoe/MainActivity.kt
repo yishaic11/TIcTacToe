@@ -58,11 +58,11 @@ class MainActivity : AppCompatActivity() {
 
         button.text = currentPlayer
 
-        var colorId = R.color.blue
+        var color = getColor(R.color.blue)
         if (currentPlayer == "X") {
-            colorId = R.color.red
+            color = getColor(R.color.red)
         }
-        button.setTextColor(getColor(colorId))
+        button.setTextColor(color)
 
         moveCount++
 
@@ -70,19 +70,19 @@ class MainActivity : AppCompatActivity() {
             isWinner() -> {
                 currentPlayerTextView.text = ""
                 endGameTextView.text = getString(R.string.win_message, currentPlayer)
-                endGameTextView.setTextColor(getColor(colorId))
-                setBoardFrameColor(getColor(colorId))
+                endGameTextView.setTextColor(color)
+                setBoardFrameColor(color)
                 gameOver = true
-                enableResetButton(getColor(colorId))
+                enableResetButton(color)
             }
 
             moveCount == 9 -> {
-                colorId = R.color.grey
+                color = getColor(R.color.grey)
                 currentPlayerTextView.text = ""
                 endGameTextView.text = getString(R.string.draw_message)
-                endGameTextView.setTextColor(colorId)
+                endGameTextView.setTextColor(color)
                 gameOver = true
-                enableResetButton(getColor(colorId))
+                enableResetButton(color)
             }
 
             else -> switchPlayer()
@@ -127,8 +127,6 @@ class MainActivity : AppCompatActivity() {
         updateTurnIndicator()
         endGameTextView.text = ""
         playAgainButton.visibility = INVISIBLE
-        playAgainButton.isEnabled = false
-
         setBoardFrameColor(getColor(R.color.grey))
     }
 
