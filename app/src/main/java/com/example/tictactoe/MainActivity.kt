@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 
-class TicTacToeActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     private lateinit var gameBoard: Array<Array<Button>>
-    private lateinit var turnIndicator: TextView
-    private lateinit var resultMessage: TextView
-    private lateinit var resetGameButton: Button
+    private lateinit var currentPlayerMessage: TextView
+    private lateinit var endGameMessage: TextView
+    private lateinit var playAgainButton: Button
 
     private var currentPlayer = "X"
     private var moveCount = 0
@@ -18,18 +18,15 @@ class TicTacToeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize views
-        turnIndicator = findViewById(R.id.turnIndicator)
-        resultMessage = findViewById(R.id.resultMessage)
-        resetGameButton = findViewById(R.id.resetGameButton)
+        currentPlayerMessage = findViewById(R.id.current_player_message)
+        endGameMessage = findViewById(R.id.end_game_message)
+        playAgainButton = findViewById(R.id.play_again_button)
 
         updateTurnIndicator()
 
-        // Disable reset button until the game ends
-        resetGameButton.isEnabled = false
-        resetGameButton.setOnClickListener { resetGame() }
+        playAgainButton.isEnabled = false
+        playAgainButton.setOnClickListener { resetGame() }
 
-        // Initialize game board buttons
         gameBoard = Array(3) { row ->
             Array(3) { col ->
                 val buttonId = resources.getIdentifier("button_$row$col", "id", packageName)
@@ -46,16 +43,17 @@ class TicTacToeActivity : AppCompatActivity() {
         button.text = currentPlayer
         moveCount++
 
-        // Check for winner or tie
         when {
             isWinner() -> {
-                resultMessage.text = getString(R.string.winner_message, currentPlayer)
+                endGameMessage.text = getString(R.string.win_message, currentPlayer)
                 enableResetButton()
             }
+
             moveCount == 9 -> {
-                resultMessage.text = getString(R.string.tie_message)
+                endGameMessage.text = getString(R.string.draw_message)
                 enableResetButton()
             }
+
             else -> switchPlayer()
         }
     }
@@ -83,7 +81,7 @@ class TicTacToeActivity : AppCompatActivity() {
     }
 
     private fun updateTurnIndicator() {
-        turnIndicator.text = getString(R.string.turn_message, currentPlayer)
+        currentPlayerMessage.text = getString(R.string.current_player_message, currentPlayer)
     }
 
     private fun resetGame() {
@@ -95,11 +93,11 @@ class TicTacToeActivity : AppCompatActivity() {
         currentPlayer = "X"
         moveCount = 0
         updateTurnIndicator()
-        resultMessage.text = ""
-        resetGameButton.isEnabled = false
+        endGameMessage.text = ""
+        playAgainButton.isEnabled = false
     }
 
     private fun enableResetButton() {
-        resetGameButton.isEnabled = true
+        playAgainButton.isEnabled = true
     }
 }
