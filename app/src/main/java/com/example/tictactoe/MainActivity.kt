@@ -2,16 +2,19 @@ package com.example.tictactoe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.widget.Button
 import android.widget.TextView
+
+import android.graphics.drawable.GradientDrawable
+import android.widget.FrameLayout
 
 class MainActivity : AppCompatActivity() {
     private lateinit var gameBoard: Array<Array<Button>>
     private lateinit var currentPlayerTextView: TextView
     private lateinit var endGameTextView: TextView
     private lateinit var playAgainButton: Button
+    private lateinit var gameBoardFrame: FrameLayout
 
     private var currentPlayer = "X"
     private var moveCount = 0
@@ -24,6 +27,9 @@ class MainActivity : AppCompatActivity() {
         currentPlayerTextView = findViewById(R.id.current_player_message)
         endGameTextView = findViewById(R.id.end_game_message)
         playAgainButton = findViewById(R.id.play_again_button)
+
+        gameBoardFrame = findViewById(R.id.game_board_frame)
+        setBoardFrameColor(getColor(android.R.color.black))
 
         updateTurnIndicator()
 
@@ -40,31 +46,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setBoardFrameColor(color: Int) {
+        var boardFrameStrokeWidth =
+            resources.getDimensionPixelSize(R.dimen.game_board_frame_stroke_width)
+        var drawable = gameBoardFrame.background.mutate() as GradientDrawable
+        drawable.setStroke(boardFrameStrokeWidth, color)
+    }
+
     private fun handleCellClick(button: Button, row: Int, col: Int) {
         if (button.text.isNotEmpty() || gameOver) return
 
         button.text = currentPlayer
+
+        var color = getColor(R.color.blue)
+        if (currentPlayer == "X") {
+            color = getColor(R.color.red)
+        }
+        button.setTextColor(color)
+
         moveCount++
 
         when {
             isWinner() -> {
-                var color = R.color.blue
                 currentPlayerTextView.text = ""
                 endGameTextView.text = getString(R.string.win_message, currentPlayer)
-                if (currentPlayer === "X") {
-                    color = R.color.red
-                }
-
-                endGameTextView.setTextColor(getColor(color))
+                endGameTextView.setTextColor(color)
+                setBoardFrameColor(color)
                 gameOver = true
                 enableResetButton(color)
             }
 
             moveCount == 9 -> {
-                var color = R.color.grey
+                color = getColor(R.color.grey)
                 currentPlayerTextView.text = ""
                 endGameTextView.text = getString(R.string.draw_message)
-                endGameTextView.setTextColor(getColor(color))
+                endGameTextView.setTextColor(color)
                 gameOver = true
                 enableResetButton(color)
             }
@@ -111,10 +127,11 @@ class MainActivity : AppCompatActivity() {
         updateTurnIndicator()
         endGameTextView.text = ""
         playAgainButton.visibility = INVISIBLE
+        setBoardFrameColor(getColor(R.color.grey))
     }
 
     private fun enableResetButton(color: Int) {
         playAgainButton.visibility = VISIBLE
-        playAgainButton.setBackgroundColor(getColor(color))
+        playAgainButton.setBackgroundColor(color)
     }
 }
