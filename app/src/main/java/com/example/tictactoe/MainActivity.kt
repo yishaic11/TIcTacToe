@@ -42,6 +42,13 @@ class MainActivity : AppCompatActivity() {
         if (button.text.isNotEmpty() || gameOver) return
 
         button.text = currentPlayer
+
+        if (currentPlayer == "X") {
+            button.setTextColor(getColor(R.color.red))
+        } else {
+            button.setTextColor(getColor(R.color.blue))
+        }
+
         moveCount++
 
         when {
@@ -91,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         for (row in gameBoard) {
             for (button in row) {
                 button.text = ""
+                button.setTextColor(getColor(android.R.color.black))
             }
         }
         currentPlayer = "X"
