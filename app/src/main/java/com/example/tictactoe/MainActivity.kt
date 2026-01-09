@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 
+import android.graphics.drawable.GradientDrawable
+import android.widget.FrameLayout
+
 class MainActivity : AppCompatActivity() {
     private lateinit var gameBoard: Array<Array<Button>>
     private lateinit var currentPlayerTextView: TextView
     private lateinit var endGameTextView: TextView
     private lateinit var playAgainButton: Button
+    private lateinit var gameBoardFrame: FrameLayout
 
     private var currentPlayer = "X"
     private var moveCount = 0
@@ -22,6 +26,9 @@ class MainActivity : AppCompatActivity() {
         currentPlayerTextView = findViewById(R.id.current_player_message)
         endGameTextView = findViewById(R.id.end_game_message)
         playAgainButton = findViewById(R.id.play_again_button)
+
+        gameBoardFrame = findViewById(R.id.game_board_frame)
+        setBoardFrameColor(getColor(android.R.color.black))
 
         updateTurnIndicator()
 
@@ -36,6 +43,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setBoardFrameColor(color: int) {
+        var boardFrameStrokeWidth =
+            resources.getDimensionPixelSize(R.dimen.game_board_frame_stroke_width)
+        var drawable = gameBoardFrame.background.mutate() as GradientDrawable
+        drawable.setStroke(boardFrameStrokeWidth, color)
     }
 
     private fun handleCellClick(button: Button, row: Int, col: Int) {
@@ -54,6 +68,15 @@ class MainActivity : AppCompatActivity() {
         when {
             isWinner() -> {
                 endGameTextView.text = getString(R.string.win_message, currentPlayer)
+
+                val winningCOlor = if (currentPlayer == "X") {
+                    getColor(R.color.red)
+                } else {
+                    getColor(R.color.blue)
+                }
+
+                setBoardFrameColor(winningCOlor)
+
                 gameOver = true
                 enableResetButton()
             }
@@ -107,6 +130,8 @@ class MainActivity : AppCompatActivity() {
         updateTurnIndicator()
         endGameTextView.text = ""
         playAgainButton.isEnabled = false
+
+        setBoardFrameColor(getColor(android.R.color.black))
     }
 
     private fun enableResetButton() {
