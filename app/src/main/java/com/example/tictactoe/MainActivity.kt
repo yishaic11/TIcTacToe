@@ -2,6 +2,8 @@ package com.example.tictactoe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.TextView
 
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         updateTurnIndicator()
 
-        playAgainButton.isEnabled = false
+        playAgainButton.visibility = INVISIBLE
         playAgainButton.setOnClickListener { playAgain() }
 
         gameBoard = Array(3) { row ->
@@ -46,15 +48,25 @@ class MainActivity : AppCompatActivity() {
 
         when {
             isWinner() -> {
+                var color = R.color.blue
+                currentPlayerTextView.text = ""
                 endGameTextView.text = getString(R.string.win_message, currentPlayer)
+                if (currentPlayer === "X") {
+                    color = R.color.red
+                }
+
+                endGameTextView.setTextColor(getColor(color))
                 gameOver = true
-                enableResetButton()
+                enableResetButton(color)
             }
 
             moveCount == 9 -> {
+                var color = R.color.grey
+                currentPlayerTextView.text = ""
                 endGameTextView.text = getString(R.string.draw_message)
+                endGameTextView.setTextColor(getColor(color))
                 gameOver = true
-                enableResetButton()
+                enableResetButton(color)
             }
 
             else -> switchPlayer()
@@ -98,10 +110,11 @@ class MainActivity : AppCompatActivity() {
         gameOver = false
         updateTurnIndicator()
         endGameTextView.text = ""
-        playAgainButton.isEnabled = false
+        playAgainButton.visibility = INVISIBLE
     }
 
-    private fun enableResetButton() {
-        playAgainButton.isEnabled = true
+    private fun enableResetButton(color: Int) {
+        playAgainButton.visibility = VISIBLE
+        playAgainButton.setBackgroundColor(getColor(color))
     }
 }
