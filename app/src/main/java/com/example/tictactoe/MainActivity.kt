@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     private var currentPlayer = "X"
     private var moveCount = 0
+    private var gameOver = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleCellClick(button: Button, row: Int, col: Int) {
-        if (button.text.isNotEmpty()) return
+        if (button.text.isNotEmpty() || gameOver) return
 
         button.text = currentPlayer
         moveCount++
@@ -46,11 +47,13 @@ class MainActivity : AppCompatActivity() {
         when {
             isWinner() -> {
                 endGameMessage.text = getString(R.string.win_message, currentPlayer)
+                gameOver = true
                 enableResetButton()
             }
 
             moveCount == 9 -> {
                 endGameMessage.text = getString(R.string.draw_message)
+                gameOver = true
                 enableResetButton()
             }
 
@@ -92,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         }
         currentPlayer = "X"
         moveCount = 0
+        gameOver = false
         updateTurnIndicator()
         endGameMessage.text = ""
         playAgainButton.isEnabled = false
