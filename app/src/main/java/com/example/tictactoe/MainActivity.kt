@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         updateTurnIndicator()
 
         playAgainButton.isEnabled = false
-        playAgainButton.setOnClickListener { resetGame() }
+        playAgainButton.setOnClickListener { playAgain() }
 
         gameBoard = Array(3) { row ->
             Array(3) { col ->
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         currentPlayerTextView.text = getString(R.string.current_player_message, currentPlayer)
     }
 
-    private fun resetGame() {
+    private fun playAgain() {
         for (row in gameBoard) {
             for (button in row) {
                 button.text = ""
